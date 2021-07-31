@@ -4,10 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.widget.Toolbar
 
 class ExerciseActivity : AppCompatActivity() {
@@ -71,13 +68,20 @@ class ExerciseActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
-                Toast.makeText(this@ExerciseActivity,"kuch bhi kro ab",Toast.LENGTH_SHORT).show()
+                if (currentExercisePosition < exerciseList!!.size-1){
+                    setUpRestView()
+                }
+                else{
+                    Toast.makeText(this@ExerciseActivity,"kuch bhi kro ab",Toast.LENGTH_SHORT).show()
+                }
             }
         }.start()
     }
 
     private fun setUpExerciseView(){
         val llRestView=findViewById<LinearLayout>(R.id.llRestView)
+        val ivImage=findViewById<ImageView>(R.id.ivImage)
+        val tvExerciseName=findViewById<TextView>(R.id.tvExerciseName)
         llRestView.visibility=View.GONE
         val llExerciseView=findViewById<LinearLayout>(R.id.llExerciseView)
         llExerciseView.visibility=View.VISIBLE
@@ -87,9 +91,15 @@ class ExerciseActivity : AppCompatActivity() {
             exerciseTimer!!.cancel()
         }
         startExerciseProgressBar()
+        ivImage.setImageResource(exerciseList!![currentExercisePosition].getImage())
+        tvExerciseName.text=(exerciseList!![currentExercisePosition].getName())
     }
 
     private fun setUpRestView(){
+        val llRestView=findViewById<LinearLayout>(R.id.llRestView)
+        llRestView.visibility=View.VISIBLE
+        val llExerciseView=findViewById<LinearLayout>(R.id.llExerciseView)
+        llExerciseView.visibility=View.GONE
 
         if(restTimer!=null){
             restTimer!!.cancel()
