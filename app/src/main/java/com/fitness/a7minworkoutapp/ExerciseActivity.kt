@@ -17,7 +17,8 @@ class ExerciseActivity : AppCompatActivity() {
     private var exerciseTimer:CountDownTimer?=null
     private var exerciseProgress=0
 
-    private var exerciseTimerDuration:Long=30
+    //no of seconds we want to set on timer for exercise
+    private var exerciseTimerDuration:Long=2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,8 +33,9 @@ class ExerciseActivity : AppCompatActivity() {
         toolbar_exercise_activity.setNavigationOnClickListener {
             onBackPressed()
         }
-        setUpRestView()
+
         exerciseList=Constants.defaultExerciseList()
+        setUpRestView()
 
     }
 
@@ -49,7 +51,6 @@ class ExerciseActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
-                currentExercisePosition++
                 setUpExerciseView()
             }
         }.start()
@@ -96,6 +97,9 @@ class ExerciseActivity : AppCompatActivity() {
     }
 
     private fun setUpRestView(){
+
+        val tvUpcomingExercise=findViewById<TextView>(R.id.tvUpcomingExercise)
+
         val llRestView=findViewById<LinearLayout>(R.id.llRestView)
         llRestView.visibility=View.VISIBLE
         val llExerciseView=findViewById<LinearLayout>(R.id.llExerciseView)
@@ -105,6 +109,8 @@ class ExerciseActivity : AppCompatActivity() {
             restTimer!!.cancel()
             restProgress=0
         }
+        currentExercisePosition++
+        tvUpcomingExercise.text=exerciseList!![currentExercisePosition].getName()
         startRestProgressBar()
     }
 
