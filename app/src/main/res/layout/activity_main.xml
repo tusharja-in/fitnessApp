@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/img_main_page"
             android:contentDescription="app name image"
+            android:layout_marginTop="20dp"
             />
 
         <LinearLayout

@@ -3,16 +3,21 @@ package com.fitness.a7minworkoutapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.speech.tts.TextToSpeech
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
+import java.util.*
+import kotlin.collections.ArrayList
 
-class ExerciseActivity : AppCompatActivity() {
+class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private var exerciseList:ArrayList<ExerciseModel>?=null
     private var currentExercisePosition=-1
     private var restTimer:CountDownTimer?=null
     private var restProgress=0
+    private var tts:TextToSpeech?=null
 
     private var exerciseTimer:CountDownTimer?=null
     private var exerciseProgress=0
@@ -34,6 +39,7 @@ class ExerciseActivity : AppCompatActivity() {
             onBackPressed()
         }
 
+        tts= TextToSpeech(this,this)
         exerciseList=Constants.defaultExerciseList()
         setUpRestView()
 
@@ -91,6 +97,8 @@ class ExerciseActivity : AppCompatActivity() {
             exerciseProgress=0
             exerciseTimer!!.cancel()
         }
+
+        speakOut("Perform ${exerciseList!![currentExercisePosition].getName()} for 30 seconds.")
         startExerciseProgressBar()
         ivImage.setImageResource(exerciseList!![currentExercisePosition].getImage())
         tvExerciseName.text=(exerciseList!![currentExercisePosition].getName())
@@ -120,6 +128,33 @@ class ExerciseActivity : AppCompatActivity() {
             restTimer!!.cancel()
             restProgress=0
         }
+
+        if(exerciseTimer!=null){
+            exerciseTimer!!.cancel()
+            exerciseProgress=0
+        }
+
+        if(tts!=null){
+            tts!!.stop()
+            tts!!.shutdown()
+        }
+
     }
 
+    override fun onInit(status: Int) {
+        if (status==TextToSpeech.SUCCESS){
+            val result=tts!!.setLanguage(Locale.US)
+            if (result==TextToSpeech.LANG_NOT_SUPPORTED || result==TextToSpeech.LANG_MISSING_DATA)
+            {
+                Log.e("tts","lang missing")
+            }
+        }
+        else{
+            Log.e("tts","error")
+        }
+    }
+
+    private fun speakOut(text:String){
+        tts!!.speak(text,TextToSpeech.QUEUE_FLUSH,null,"")
+    }
 }
