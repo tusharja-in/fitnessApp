@@ -1,5 +1,6 @@
 package com.fitness.a7minworkoutapp
 
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -8,6 +9,9 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -18,7 +22,8 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var restTimer:CountDownTimer?=null
     private var restProgress=0
     private var tts:TextToSpeech?=null
-
+    private var player:MediaPlayer?=null
+    private var exerciseAdapter:ExerciseStatusAdapter?=null
     private var exerciseTimer:CountDownTimer?=null
     private var exerciseProgress=0
 
@@ -42,6 +47,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         tts= TextToSpeech(this,this)
         exerciseList=Constants.defaultExerciseList()
         setUpRestView()
+        setupExerciseStatusRecyclerView()
 
     }
 
@@ -105,6 +111,11 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     }
 
     private fun setUpRestView(){
+        try {
+            player = MediaPlayer.create(applicationContext, R.raw.press_start)
+            player!!.isLooping = false
+            player!!.start()
+        }catch (e:Exception){e.printStackTrace()}
 
         val tvUpcomingExercise=findViewById<TextView>(R.id.tvUpcomingExercise)
 
@@ -139,6 +150,10 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             tts!!.shutdown()
         }
 
+        if(player!=null){
+            player!!.stop()
+        }
+
     }
 
     override fun onInit(status: Int) {
@@ -156,5 +171,13 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private fun speakOut(text:String){
         tts!!.speak(text,TextToSpeech.QUEUE_FLUSH,null,"")
+    }
+
+    private fun setupExerciseStatusRecyclerView(){
+        val rvExerciseStatus=findViewById<RecyclerView>(R.id.rvExerciseStatus)
+
+        rvExerciseStatus.layoutManager=LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+        exerciseAdapter= ExerciseStatusAdapter(exerciseList!!,this)
+        rvExerciseStatus.adapter=exerciseAdapter
     }
 }
