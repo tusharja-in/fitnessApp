@@ -63,6 +63,8 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             }
 
             override fun onFinish() {
+                exerciseList!![currentExercisePosition].setIsSelected(true)
+                exerciseAdapter!!.notifyDataSetChanged()
                 setUpExerciseView()
             }
         }.start()
@@ -82,6 +84,9 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
             override fun onFinish() {
                 if (currentExercisePosition < exerciseList!!.size-1){
+                    exerciseList!![currentExercisePosition].setIsSelected(false)
+                    exerciseList!![currentExercisePosition].setIsCompleted(true)
+                    exerciseAdapter!!.notifyDataSetChanged()
                     setUpRestView()
                 }
                 else{
@@ -161,7 +166,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             val result=tts!!.setLanguage(Locale.US)
             if (result==TextToSpeech.LANG_NOT_SUPPORTED || result==TextToSpeech.LANG_MISSING_DATA)
             {
-                Log.e("tts","lang missing")
+                Log.e("tts","language missing")
             }
         }
         else{
