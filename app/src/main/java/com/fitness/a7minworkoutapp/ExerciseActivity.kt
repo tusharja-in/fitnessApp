@@ -1,5 +1,6 @@
 package com.fitness.a7minworkoutapp
 
+import android.content.Intent
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -29,6 +30,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     //no of seconds we want to set on timer for exercise
     private var exerciseTimerDuration:Long=2
+    private var restTimerDuration:Long=1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,11 +57,11 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         val progressBar=findViewById<ProgressBar>(R.id.progressBar)
         val tvTimer=findViewById<TextView>(R.id.tvTimer)
         progressBar.progress=restProgress
-        restTimer=object:CountDownTimer(10000,1000){
+        restTimer=object:CountDownTimer(restTimerDuration*1000,1000){
             override fun onTick(millisUntilFinished: Long) {
                 restProgress++
-                progressBar.progress=10-restProgress
-                tvTimer.text=(10-restProgress).toString()
+                progressBar.progress=restTimerDuration.toInt()-restProgress
+                tvTimer.text=(restTimerDuration-restProgress).toString()
             }
 
             override fun onFinish() {
@@ -90,7 +92,9 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     setUpRestView()
                 }
                 else{
-                    Toast.makeText(this@ExerciseActivity,"kuch bhi kro ab",Toast.LENGTH_SHORT).show()
+                    finish()
+                    val intent=Intent(this@ExerciseActivity,FinishActivity::class.java)
+                    startActivity(intent)
                 }
             }
         }.start()
