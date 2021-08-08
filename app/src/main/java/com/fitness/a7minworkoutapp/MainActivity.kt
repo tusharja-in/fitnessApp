@@ -12,10 +12,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val ll_start_btn=findViewById<LinearLayout>(R.id.ll_start_btn)
+        val ll_BMI_calculate=findViewById<LinearLayout>(R.id.ll_BMI_calculate)
 
         ll_start_btn.setOnClickListener {
             val intent = Intent(this,ExerciseActivity::class.java)
             startActivity(intent)
         }
+
+        ll_BMI_calculate.setOnClickListener {
+            val intent=Intent(this,BMIActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 }

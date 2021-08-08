@@ -1,5 +1,6 @@
 package com.fitness.a7minworkoutapp
 
+import android.app.Dialog
 import android.content.Intent
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
@@ -43,7 +44,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             actionbar.setDisplayHomeAsUpEnabled(true)
         }
         toolbar_exercise_activity.setNavigationOnClickListener {
-            onBackPressed()
+            customDialogForBackButton()
         }
 
         tts= TextToSpeech(this,this)
@@ -189,4 +190,20 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         exerciseAdapter= ExerciseStatusAdapter(exerciseList!!,this)
         rvExerciseStatus.adapter=exerciseAdapter
     }
+
+    private fun customDialogForBackButton(){
+
+        val customDialog=Dialog(this)
+        customDialog.setContentView(R.layout.exercise_back_confirmation)
+        customDialog.findViewById<Button>(R.id.btnYES).setOnClickListener {
+            finish()
+            customDialog.dismiss()
+        }
+
+        customDialog.findViewById<Button>(R.id.btnNO).setOnClickListener {
+            customDialog.dismiss()
+        }
+        customDialog.show()
+    }
+
 }
