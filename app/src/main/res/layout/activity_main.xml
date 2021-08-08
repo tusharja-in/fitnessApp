@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/img_main_page"
             android:contentDescription="app name image"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             />
 
         <LinearLayout
@@ -44,8 +44,8 @@
             android:orientation="vertical">
             <LinearLayout
                 android:id="@+id/ll_BMI_calculate"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:gravity="center"
                 android:background="@drawable/item_circular_color_accent_background">
                 <TextView
