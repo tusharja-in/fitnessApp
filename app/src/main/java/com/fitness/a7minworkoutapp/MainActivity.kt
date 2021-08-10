@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
 
         val ll_start_btn=findViewById<LinearLayout>(R.id.ll_start_btn)
         val ll_BMI_calculate=findViewById<LinearLayout>(R.id.ll_BMI_calculate)
+        val llHistoryButton=findViewById<LinearLayout>(R.id.llHistoryButton)
 
         ll_start_btn.setOnClickListener {
             val intent = Intent(this,ExerciseActivity::class.java)
@@ -24,5 +25,9 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        llHistoryButton.setOnClickListener {
+            val intent=Intent(this,HistoryActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
