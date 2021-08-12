@@ -30,8 +30,8 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var exerciseProgress=0
 
     //no of seconds we want to set on timer for exercise
-    private var exerciseTimerDuration:Long=30
-    private var restTimerDuration:Long=10
+    private var exerciseTimerDuration:Long=1
+    private var restTimerDuration:Long=1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
